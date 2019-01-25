@@ -1,16 +1,23 @@
-// This is a simple example of a synchronous callback, as it is executed immediately
+const posts = [
+  { title: "Post one", body: "this is post one" },
+  { title: "Post two", body: "This is post two" }
+];
 
-function greeting(name) {
-  return "Hello " + name;
+function getPosts() {
+  setTimeout(() => {
+    let output = "";
+    posts.forEach(function(post, index) {
+      output += `<li>${post.title}</li>`;
+    });
+    console.log(output);
+  }, 1000);
 }
 
-function processUserInput(callback) {
-  const name = prompt("Please enter your name.");
-  callback(name);
+function createPost(post, callback) {
+  setTimeout(() => {
+    posts.push(post);
+    callback();
+  }, 2000);
 }
 
-processUserInput(greeting); // `Hello ${name}`
-
-// Note, however, that callbacks are often used to continue code execution after an asynchronous operation has completed —
-// these are called asynchronous callbacks. A good example is the callback functions
-// executed inside a .then() block chained onto the end of a promise after that promise fulfills or rejects.
+createPost({ title: "Post Three", body: "this is post three" }, getPosts);
